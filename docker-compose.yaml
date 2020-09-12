@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  code_prometheus:
+  prometheus:
     container_name: code_prometheus
     image: prom/prometheus
     ports:
@@ -10,7 +10,7 @@ services:
         - "./services/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml"
     restart: always
 
-  code_grafana:
+  grafana:
     container_name: code_grafana
     image: grafana/grafana
     ports:
