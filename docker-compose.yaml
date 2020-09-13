@@ -1,20 +1,28 @@
 version: "3"
 
+networks:
+  internal:
+    driver: bridge
+
 services:
   prometheus:
-    container_name: code_prometheus
+    container_name: prometheus
     image: prom/prometheus
     ports:
-        - "${PROMETHEUS_PORT:-5000}:9090"
+        - "${PROMETHEUS_PORT:-9090}:9090"
     volumes:
         - "./services/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml"
+    networks:
+      - internal
     restart: always
 
   grafana:
-    container_name: code_grafana
+    container_name: grafana
     image: grafana/grafana
     ports:
-        - "${GRAFANA_PORT:-5050}:3000"
+        - "${GRAFANA_PORT:-3000}:3000"
+    networks:
+      - internal
     restart: always
 
   node_exporter:
@@ -22,4 +30,6 @@ services:
     image: prom/node-exporter
     ports:
       - "${NODE_EXPORTER:-9100}:9100"
+    networks:
+      - internal
     restart: always
