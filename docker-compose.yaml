@@ -5,6 +5,23 @@ networks:
     driver: bridge
 
 services:
+  dnsmasq:
+    container_name: dnsmasq
+    image: jpillora/dnsmasq
+    ports:
+      - "53:53/udp"
+      - "5380:8080/tcp"
+    volumes:
+      - "./services/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf"
+    environment:
+      - HTTP_USER=dnsmasq
+      - HTTP_PASS=dnsmasq
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - internal
+    restart: always
+
   prometheus:
     container_name: prometheus
     image: prom/prometheus
